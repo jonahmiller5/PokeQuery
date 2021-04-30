@@ -1,8 +1,22 @@
 package nets150hw5.datamodel;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
+@ToString
 public class PokeAPILocation {
-    private String name;
-    private String url;
+    private final String name;
+    private final String url;
+
+    @Setter
+    private List<PokeAPILocationArea> locationAreas = new ArrayList<>();
+    @Setter
+    private List<String> pokemon = new ArrayList<>();
 
     /**
      * Constructor.
@@ -10,15 +24,7 @@ public class PokeAPILocation {
      * @param url   The location's PokeAPI url
      */
     public PokeAPILocation(final String name, final String url) {
-        // TODO: implement
-    }
-
-    /**
-     * A static method to create a PokeAPILocation object from JSON.
-     * @return parsed PokeAPILocation instance
-     */
-    public static PokeAPILocation fromJson() {
-        // TODO: implement
-        return null;
+        this.name = name;
+        this.url = url;
     }
 }

@@ -63,11 +63,12 @@ public class PokeAPICaller {
 
             i = in.read();
 
+            if (i == -1) break;
+
             sb.append((char) i);
         }
 
         final String result = sb.toString();
-        System.out.println(len);
 
         return result;
     }
