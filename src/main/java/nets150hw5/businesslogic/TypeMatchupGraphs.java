@@ -76,9 +76,91 @@ public class TypeMatchupGraphs {
         }
     }
     
+    public void populateHalfTimes() {
+        String typeInfoJson = "";
+        for (String type : typeURLMap.keySet()) {
+            HashSet<String> currentSet = new HashSet<String>();
+            try {
+                typeInfoJson = caller.getJsonResponse(typeURLMap.get(type));
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            JsonArray elementArray = parser.parse(typeInfoJson)
+                    .getAsJsonObject()
+                    .get("damage_relations")
+                    .getAsJsonObject()
+                    .get("half_damage_to")
+                    .getAsJsonArray();
+            
+            for (JsonElement elt : elementArray) {
+                JsonElement nameElement = elt.getAsJsonObject().get("name");
+                currentSet.add(nameElement.getAsString());
+            }
+            
+            halfTimesEffectiveGraph.put(type, currentSet);
+        }
+        
+        for (Map.Entry<String, HashSet<String>> entry : halfTimesEffectiveGraph.entrySet()) {
+            System.out.println(entry.getKey() + ":");
+            for (String st : entry.getValue()) {
+                System.out.println(st);
+            }
+        }
+    }
+    
+    public void populateTwoTimes() {
+        String typeInfoJson = "";
+        for (String type : typeURLMap.keySet()) {
+            HashSet<String> currentSet = new HashSet<String>();
+            try {
+                typeInfoJson = caller.getJsonResponse(typeURLMap.get(type));
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            JsonArray elementArray = parser.parse(typeInfoJson)
+                    .getAsJsonObject()
+                    .get("damage_relations")
+                    .getAsJsonObject()
+                    .get("double_damage_to")
+                    .getAsJsonArray();
+            
+            for (JsonElement elt : elementArray) {
+                JsonElement nameElement = elt.getAsJsonObject().get("name");
+                currentSet.add(nameElement.getAsString());
+            }
+            
+            twoTimesEffectiveGraph.put(type, currentSet);
+        }
+        
+        for (Map.Entry<String, HashSet<String>> entry : twoTimesEffectiveGraph.entrySet()) {
+            System.out.println(entry.getKey() + ":");
+            for (String st : entry.getValue()) {
+                System.out.println(st);
+            }
+        }
+    }
+    
+    public void populateOneTimes() {
+        for (String type : typeURLMap.keySet()) {
+            HashSet<String> currentSet = (HashSet<String>) typeURLMap.keySet();
+            for (String zeroS : zeroTimesEffectiveGraph.get(type)) {
+                currentSet.remove(zeroS);
+            }
+            for (String halfS : halfTimesEffectiveGraph.get(type)) {
+                currentSet.remove(halfS);
+            }
+            for (String doubleS : twoTimesEffectiveGraph.get(type)) {
+                currentSet.remove(doubleS);
+            }
+            
+        }
+    }
+    
     public static void main(String[] args) {
         TypeMatchupGraphs matchups = new TypeMatchupGraphs();
         matchups.populateTypeURLMap();
-        matchups.populateZeroTimes();
+        matchups.populateTwoTimes();
     }
 }
