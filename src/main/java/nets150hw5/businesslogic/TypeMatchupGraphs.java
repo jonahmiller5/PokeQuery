@@ -144,7 +144,11 @@ public class TypeMatchupGraphs {
     
     public void populateOneTimes() {
         for (String type : typeURLMap.keySet()) {
-            HashSet<String> currentSet = (HashSet<String>) typeURLMap.keySet();
+            HashSet<String> currentSet = new HashSet<String>();
+            for (String t : typeURLMap.keySet()) {
+                currentSet.add(t);
+            }
+            
             for (String zeroS : zeroTimesEffectiveGraph.get(type)) {
                 currentSet.remove(zeroS);
             }
@@ -155,12 +159,27 @@ public class TypeMatchupGraphs {
                 currentSet.remove(doubleS);
             }
             
+            oneTimesEffectiveGraph.put(type, currentSet);
         }
+        
+        System.out.println("");
+        System.out.println("ONE TIMES TEST");
+        
+        for (Map.Entry<String, HashSet<String>> entry : oneTimesEffectiveGraph.entrySet()) {
+            System.out.println(entry.getKey() + ":");
+            for (String st : entry.getValue()) {
+                System.out.println(st);
+            }
+        }
+        
     }
     
     public static void main(String[] args) {
         TypeMatchupGraphs matchups = new TypeMatchupGraphs();
         matchups.populateTypeURLMap();
+        matchups.populateZeroTimes();
         matchups.populateTwoTimes();
+        matchups.populateHalfTimes();
+        matchups.populateOneTimes();
     }
 }
