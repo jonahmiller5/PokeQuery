@@ -1,5 +1,6 @@
 package nets150hw5.businesslogic;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gson.*;
 import nets150hw5.datamodel.PokeAPILocation;
 import nets150hw5.datamodel.PokeAPILocationArea;
@@ -17,7 +18,7 @@ public class LocationInfoRetriever {
     private final PokeAPICaller pokeCaller;
     private final JsonParser jsonParser;
 
-    private final Map<String, List<PokeAPILocation>> regionMap = new HashMap<>();
+    final Map<String, List<PokeAPILocation>> regionMap = new HashMap<>();
 
     /**
      * Constructor to retrieve relevant info about Pokemon locations.
@@ -67,12 +68,26 @@ public class LocationInfoRetriever {
         return Collections.unmodifiableList(pokeLocations);
     }
 
+    /**
+     * Method to add to region-location map
+     * @param region    region, key
+     * @param location  {@link PokeAPILocation} location, value
+     */
     private void addLocationToRegion(final String region, final PokeAPILocation location) {
-        if (!this.regionMap.containsKey(region)) {
+        if (!this.regionMap.containsKey(checkNotNull(region))) {
             this.regionMap.put(region, new ArrayList<>());
         }
 
-        this.regionMap.get(region).add(location);
+        this.regionMap.get(region).add(checkNotNull(location));
+    }
+
+    /**
+     * Getter to find the locations for a region
+     * @param region    Region desired
+     * @return  List of {@link PokeAPILocation} objects for that region
+     */
+    public List<PokeAPILocation> getLocationsByRegion(final String region) {
+        return this.regionMap.get(checkNotNull(region));
     }
 
     /**
