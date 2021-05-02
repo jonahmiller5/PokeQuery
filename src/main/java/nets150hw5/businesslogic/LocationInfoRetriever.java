@@ -1,9 +1,6 @@
 package nets150hw5.businesslogic;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import nets150hw5.datamodel.PokeAPILocation;
 import nets150hw5.datamodel.PokeAPILocationArea;
 
@@ -20,11 +17,12 @@ public class LocationInfoRetriever {
     private final PokeAPICaller pokeCaller;
     private final JsonParser jsonParser;
 
+    private final Map<String, List<PokeAPILocation>> regionMap = new HashMap<>();
+
     /**
      * Constructor to retrieve relevant info about Pokemon locations.
-     * @param pokeCaller    API data retrieval tool
      */
-    public LocationInfoRetriever(final PokeAPICaller pokeCaller) {
+    public LocationInfoRetriever() {
         this.pokeCaller = new PokeAPICaller();
         this.jsonParser = new JsonParser();
     }
@@ -33,7 +31,7 @@ public class LocationInfoRetriever {
      * Method to retrieve location data from the API to parse and use.
      * @return  {@link List} of {@link PokeAPILocation} objects
      */
-    private List<PokeAPILocation> generateLocations() {
+    public List<PokeAPILocation> generateLocations() {
         String apiResponse = null;
         try {
             apiResponse = pokeCaller.getJsonResponse(LOCATION_ENDPOINT + OFFSET_PARAMS);
@@ -59,11 +57,22 @@ public class LocationInfoRetriever {
                     .getAsString();
 
             final PokeAPILocation pokeLocation = new PokeAPILocation(name, url);
+
             populateLocation(pokeLocation);
+            if (pokeLocation.getLocationAreas().isEmpty() || pokeLocation.getPokemon().isEmpty()) continue;
+
             pokeLocations.add(pokeLocation);
         }
 
         return Collections.unmodifiableList(pokeLocations);
+    }
+
+    private void addLocationToRegion(final String region, final PokeAPILocation location) {
+        if (!this.regionMap.containsKey(region)) {
+            this.regionMap.put(region, new ArrayList<>());
+        }
+
+        this.regionMap.get(region).add(location);
     }
 
     /**
@@ -80,13 +89,30 @@ public class LocationInfoRetriever {
             return;
         }
 
-        final JsonArray locationsArr = jsonParser.parse(apiResponse)
-                .getAsJsonObject()
+        final JsonObject jObjParent = jsonParser.parse(apiResponse)
+                .getAsJsonObject();
+
+        try {
+            final JsonNull regionObj = jObjParent
+                    .get("region")
+                    .getAsJsonNull();
+            return;
+        } catch (IllegalStateException e) {}
+
+        final JsonArray locationAreasArr = jObjParent
                 .get("areas")
                 .getAsJsonArray();
+        if (locationAreasArr.size() == 0) return;
+
+        final String region = jObjParent
+                .get("region")
+                .getAsJsonObject()
+                .get("name")
+                .getAsString();
+        this.addLocationToRegion(region, location);
 
         final List<PokeAPILocationArea> locationAreas = new ArrayList<>();
-        for (JsonElement jElt : locationsArr) {
+        for (JsonElement jElt : locationAreasArr) {
             final JsonObject jObj = jElt.getAsJsonObject();
 
             final String name = jObj
@@ -99,6 +125,7 @@ public class LocationInfoRetriever {
             final PokeAPILocationArea locationArea = new PokeAPILocationArea(name, url);
             locationAreas.add(locationArea);
         }
+
         location.setLocationAreas(locationAreas);
     }
 
