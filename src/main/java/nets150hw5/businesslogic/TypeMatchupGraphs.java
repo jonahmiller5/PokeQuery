@@ -29,7 +29,7 @@ public class TypeMatchupGraphs {
         this.populateOneTimes();
     }
     
-    public void populateTypeURLMap() {
+    private void populateTypeURLMap() {
         String typeListJson = "";
         try {
             typeListJson = caller.getJsonResponse("https://pokeapi.co/api/v2/type");
@@ -47,7 +47,7 @@ public class TypeMatchupGraphs {
         }
     }
     
-    public void populateZeroTimes() {
+    private void populateZeroTimes() {
         String typeInfoJson = "";
         for (String type : typeURLMap.keySet()) {
             HashSet<String> currentSet = new HashSet<String>();
@@ -80,7 +80,7 @@ public class TypeMatchupGraphs {
 //        }
     }
     
-    public void populateHalfTimes() {
+    private void populateHalfTimes() {
         String typeInfoJson = "";
         for (String type : typeURLMap.keySet()) {
             HashSet<String> currentSet = new HashSet<String>();
@@ -113,7 +113,7 @@ public class TypeMatchupGraphs {
 //        }
     }
     
-    public void populateTwoTimes() {
+    private void populateTwoTimes() {
         String typeInfoJson = "";
         for (String type : typeURLMap.keySet()) {
             HashSet<String> currentSet = new HashSet<String>();
@@ -146,7 +146,7 @@ public class TypeMatchupGraphs {
 //        }
     }
     
-    public void populateOneTimes() {
+    private void populateOneTimes() {
         for (String type : typeURLMap.keySet()) {
             HashSet<String> currentSet = new HashSet<>(typeURLMap.keySet());
             
