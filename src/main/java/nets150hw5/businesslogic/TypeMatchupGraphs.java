@@ -178,17 +178,29 @@ public class TypeMatchupGraphs {
     public HashSet<String> getZeroTimes(String type) {
         return zeroTimesEffectiveGraph.get(type);
     }
+    public boolean zeroTimesContainsKey(final String type) {
+        return this.zeroTimesEffectiveGraph.containsKey(type);
+    }
     
     public HashSet<String> getHalfTimes(String type) {
         return halfTimesEffectiveGraph.get(type);
+    }
+    public boolean halfTimesContainsKey(final String type) {
+        return this.halfTimesEffectiveGraph.containsKey(type);
     }
     
     public HashSet<String> getOneTimes(String type) {
         return oneTimesEffectiveGraph.get(type);
     }
+    public boolean oneTimesContainsKey(final String type) {
+        return this.oneTimesEffectiveGraph.containsKey(type);
+    }
     
     public HashSet<String> getTwoTimes(String type) {
         return twoTimesEffectiveGraph.get(type);
+    }
+    public boolean twoTimesContainsKey(final String type) {
+        return this.twoTimesEffectiveGraph.containsKey(type);
     }
     
 }
