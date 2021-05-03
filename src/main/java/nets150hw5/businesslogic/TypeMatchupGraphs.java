@@ -68,12 +68,12 @@ public class TypeMatchupGraphs {
             zeroTimesEffectiveGraph.put(type, currentSet);
         }
         
-        for (Map.Entry<String, HashSet<String>> entry : zeroTimesEffectiveGraph.entrySet()) {
-            System.out.println(entry.getKey() + ":");
-            for (String st : entry.getValue()) {
-                System.out.println(st);
-            }
-        }
+//        for (Map.Entry<String, HashSet<String>> entry : zeroTimesEffectiveGraph.entrySet()) {
+//            System.out.println(entry.getKey() + ":");
+//            for (String st : entry.getValue()) {
+//                System.out.println(st);
+//            }
+//        }
     }
     
     public void populateHalfTimes() {
@@ -101,12 +101,12 @@ public class TypeMatchupGraphs {
             halfTimesEffectiveGraph.put(type, currentSet);
         }
         
-        for (Map.Entry<String, HashSet<String>> entry : halfTimesEffectiveGraph.entrySet()) {
-            System.out.println(entry.getKey() + ":");
-            for (String st : entry.getValue()) {
-                System.out.println(st);
-            }
-        }
+//        for (Map.Entry<String, HashSet<String>> entry : halfTimesEffectiveGraph.entrySet()) {
+//            System.out.println(entry.getKey() + ":");
+//            for (String st : entry.getValue()) {
+//                System.out.println(st);
+//            }
+//        }
     }
     
     public void populateTwoTimes() {
@@ -134,12 +134,12 @@ public class TypeMatchupGraphs {
             twoTimesEffectiveGraph.put(type, currentSet);
         }
         
-        for (Map.Entry<String, HashSet<String>> entry : twoTimesEffectiveGraph.entrySet()) {
-            System.out.println(entry.getKey() + ":");
-            for (String st : entry.getValue()) {
-                System.out.println(st);
-            }
-        }
+//        for (Map.Entry<String, HashSet<String>> entry : twoTimesEffectiveGraph.entrySet()) {
+//            System.out.println(entry.getKey() + ":");
+//            for (String st : entry.getValue()) {
+//                System.out.println(st);
+//            }
+//        }
     }
     
     public void populateOneTimes() {
@@ -162,15 +162,15 @@ public class TypeMatchupGraphs {
             oneTimesEffectiveGraph.put(type, currentSet);
         }
         
-        System.out.println("");
-        System.out.println("ONE TIMES TEST");
+//        System.out.println("");
+//        System.out.println("ONE TIMES TEST");
         
-        for (Map.Entry<String, HashSet<String>> entry : oneTimesEffectiveGraph.entrySet()) {
-            System.out.println(entry.getKey() + ":");
-            for (String st : entry.getValue()) {
-                System.out.println(st);
-            }
-        }
+//        for (Map.Entry<String, HashSet<String>> entry : oneTimesEffectiveGraph.entrySet()) {
+//            System.out.println(entry.getKey() + ":");
+//            for (String st : entry.getValue()) {
+//                System.out.println(st);
+//            }
+//        }
         
     }
     
