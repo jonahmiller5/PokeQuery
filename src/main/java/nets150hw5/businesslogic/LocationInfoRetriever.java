@@ -18,7 +18,8 @@ public class LocationInfoRetriever {
     private final PokeAPICaller pokeCaller;
     private final JsonParser jsonParser;
 
-    final Map<String, List<PokeAPILocation>> regionMap = new HashMap<>();
+    private final Map<String, List<String>> regionMap = new HashMap<>();
+    private final Map<String, PokeAPILocation> locationByNameMap = new HashMap<>();
 
     /**
      * Constructor to retrieve relevant info about Pokemon locations.
@@ -26,6 +27,7 @@ public class LocationInfoRetriever {
     public LocationInfoRetriever() {
         this.pokeCaller = new PokeAPICaller();
         this.jsonParser = new JsonParser();
+        this.generateLocations();
     }
 
     /**
@@ -59,10 +61,11 @@ public class LocationInfoRetriever {
 
             final PokeAPILocation pokeLocation = new PokeAPILocation(name, url);
 
-            populateLocation(pokeLocation);
+            this.populateLocation(pokeLocation);
             if (pokeLocation.getLocationAreas().isEmpty() || pokeLocation.getPokemon().isEmpty()) continue;
 
             pokeLocations.add(pokeLocation);
+            this.locationByNameMap.put(pokeLocation.getName(), pokeLocation);
         }
 
         return Collections.unmodifiableList(pokeLocations);
@@ -73,7 +76,7 @@ public class LocationInfoRetriever {
      * @param region    region, key
      * @param location  {@link PokeAPILocation} location, value
      */
-    private void addLocationToRegion(final String region, final PokeAPILocation location) {
+    private void addLocationToRegion(final String region, final String location) {
         if (!this.regionMap.containsKey(checkNotNull(region))) {
             this.regionMap.put(region, new ArrayList<>());
         }
@@ -82,12 +85,21 @@ public class LocationInfoRetriever {
     }
 
     /**
-     * Getter to find the locations for a region
+     * Getter to find the location namess for a region
      * @param region    Region desired
-     * @return  List of {@link PokeAPILocation} objects for that region
+     * @return  List of Strings for that region
      */
-    public List<PokeAPILocation> getLocationsByRegion(final String region) {
+    public List<String> getLocationsByRegion(final String region) {
         return this.regionMap.get(checkNotNull(region));
+    }
+
+    /**
+     * Getter to get Location metadata by the location's names
+     * @param name  The name of the location
+     * @return  The corresponding {@link PokeAPILocation} object
+     */
+    public PokeAPILocation getLocationByName(final String name) {
+        return this.locationByNameMap.get(checkNotNull(name));
     }
 
     /**
@@ -124,7 +136,9 @@ public class LocationInfoRetriever {
                 .getAsJsonObject()
                 .get("name")
                 .getAsString();
-        this.addLocationToRegion(region, location);
+
+        this.addLocationToRegion(region, location.getName());
+
 
         final List<PokeAPILocationArea> locationAreas = new ArrayList<>();
         for (JsonElement jElt : locationAreasArr) {

@@ -112,8 +112,6 @@ public class PokemonInfoRetriever {
         PokemonInfoRetriever i = new PokemonInfoRetriever();
 
         List<PokeAPILocation> locations = l.generateLocations();
-        System.out.println(l.regionMap.keySet());
-        System.out.println(l.regionMap.get("kanto"));
 
 //        p.stream().forEach(System.out::println);
 
