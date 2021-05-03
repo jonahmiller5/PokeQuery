@@ -62,6 +62,7 @@ public class PokeAPICaller {
             len--;
 
             i = in.read();
+            if (i == -1) break;
 
             if (i == -1) break;
 
