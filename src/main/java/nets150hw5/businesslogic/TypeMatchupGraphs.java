@@ -148,10 +148,7 @@ public class TypeMatchupGraphs {
     
     public void populateOneTimes() {
         for (String type : typeURLMap.keySet()) {
-            HashSet<String> currentSet = new HashSet<String>();
-            for (String t : typeURLMap.keySet()) {
-                currentSet.add(t);
-            }
+            HashSet<String> currentSet = new HashSet<>(typeURLMap.keySet());
             
             for (String zeroS : zeroTimesEffectiveGraph.get(type)) {
                 currentSet.remove(zeroS);
