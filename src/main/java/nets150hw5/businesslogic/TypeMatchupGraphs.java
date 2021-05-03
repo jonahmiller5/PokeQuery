@@ -175,12 +175,20 @@ public class TypeMatchupGraphs {
         
     }
     
-    public static void main(String[] args) {
-        TypeMatchupGraphs matchups = new TypeMatchupGraphs();
-        matchups.populateTypeURLMap();
-        matchups.populateZeroTimes();
-        matchups.populateTwoTimes();
-        matchups.populateHalfTimes();
-        matchups.populateOneTimes();
+    public HashSet<String> getZeroTimes(String type) {
+        return zeroTimesEffectiveGraph.get(type);
     }
+    
+    public HashSet<String> getHalfTimes(String type) {
+        return halfTimesEffectiveGraph.get(type);
+    }
+    
+    public HashSet<String> getOneTimes(String type) {
+        return oneTimesEffectiveGraph.get(type);
+    }
+    
+    public HashSet<String> getTwoTimes(String type) {
+        return twoTimesEffectiveGraph.get(type);
+    }
+    
 }
