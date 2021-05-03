@@ -22,7 +22,11 @@ public class TypeMatchupGraphs {
     private final JsonParser parser = new JsonParser();
     
     public TypeMatchupGraphs() {
-        
+        this.populateTypeURLMap();
+        this.populateZeroTimes();
+        this.populateHalfTimes();
+        this.populateTwoTimes();
+        this.populateOneTimes();
     }
     
     public void populateTypeURLMap() {
