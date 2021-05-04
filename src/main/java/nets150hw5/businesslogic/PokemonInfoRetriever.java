@@ -106,14 +106,4 @@ public class PokemonInfoRetriever {
 
         return result;
     }
-
-    public static void main(String[] args) {
-        LocationInfoRetriever l = new LocationInfoRetriever();
-        PokemonInfoRetriever i = new PokemonInfoRetriever();
-
-        List<PokeAPILocation> locations = l.generateLocations();
-
-//        p.stream().forEach(System.out::println);
-
-    }
 }

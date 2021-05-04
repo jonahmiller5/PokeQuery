@@ -16,7 +16,7 @@ public class PokeAPIPokemon {
     private final List<PokeAPIPokemonStat> stats;
     private final int weight;
 
-    private final double rawStrength;
+    private final double rawScore;
 
     public PokeAPIPokemon(final int base_experience,
                           final String name,
@@ -28,23 +28,23 @@ public class PokeAPIPokemon {
         this.types = checkNotNull(types);
         this.stats = checkNotNull(stats);
         this.weight = weight;
-        this.rawStrength = this.determineRawStrength();
+        this.rawScore = this.determineRawScore();
     }
 
-    private double determineRawStrength() {
-        double rawStrength = 0.0;
+    private double determineRawScore() {
+        double rawScore = 0.0;
 
-        rawStrength += base_experience * 0.25;
+        rawScore += base_experience * 0.25;
 
         for (PokeAPIPokemonStat stat : stats) {
-            rawStrength += (double) stat.getBase_stat() / (double) stats.size();
+            rawScore += (double) stat.getBase_stat() / (double) stats.size();
         }
 
-        if (this.weight > 150) rawStrength++;
-        if (this.weight > 300) rawStrength++;
-        if (this.weight > 450) rawStrength++;
-        if (this.weight > 600) rawStrength++;
+        if (this.weight > 150) rawScore++;
+        if (this.weight > 300) rawScore++;
+        if (this.weight > 450) rawScore++;
+        if (this.weight > 600) rawScore++;
 
-        return rawStrength;
+        return rawScore;
     }
 }

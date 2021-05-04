@@ -2,6 +2,7 @@ package nets150hw5.businesslogic;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gson.*;
+import lombok.Getter;
 import nets150hw5.datamodel.PokeAPILocation;
 import nets150hw5.datamodel.PokeAPILocationArea;
 
@@ -13,21 +14,26 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class LocationInfoRetriever {
 
     private static final String LOCATION_ENDPOINT = "https://pokeapi.co/api/v2/location/";
+    private static final String REGION_PREFIX_ENDPOINT = "https://pokeapi.co/api/v2/region/";
     private static final String OFFSET_PARAMS = "?offset=0&limit=796";
 
     private final PokeAPICaller pokeCaller;
     private final JsonParser jsonParser;
+    private final String region;
 
     private final Map<String, List<String>> regionMap = new HashMap<>();
     private final Map<String, PokeAPILocation> locationByNameMap = new HashMap<>();
+    @Getter
+    private final List<PokeAPILocation> locationList;
 
     /**
      * Constructor to retrieve relevant info about Pokemon locations.
      */
-    public LocationInfoRetriever() {
+    public LocationInfoRetriever(final String region) {
         this.pokeCaller = new PokeAPICaller();
         this.jsonParser = new JsonParser();
-        this.generateLocations();
+        this.region = checkNotNull(region);
+        this.locationList = this.generateLocations();
     }
 
     /**
@@ -37,7 +43,7 @@ public class LocationInfoRetriever {
     public List<PokeAPILocation> generateLocations() {
         String apiResponse = null;
         try {
-            apiResponse = pokeCaller.getJsonResponse(LOCATION_ENDPOINT + OFFSET_PARAMS);
+            apiResponse = pokeCaller.getJsonResponse(REGION_PREFIX_ENDPOINT + region);
         } catch (IOException e) {
             System.err.printf("Problem receiving API response from endpoint %s. Check file LocationInfoRetriever.java", LOCATION_ENDPOINT);
             return null;
@@ -45,7 +51,7 @@ public class LocationInfoRetriever {
 
         final JsonArray locationsArr = jsonParser.parse(apiResponse)
                 .getAsJsonObject()
-                .get("results")
+                .get("locations")
                 .getAsJsonArray();
 
         final List<PokeAPILocation> pokeLocations = new ArrayList<>();
@@ -64,6 +70,7 @@ public class LocationInfoRetriever {
             this.populateLocation(pokeLocation);
             if (pokeLocation.getLocationAreas().isEmpty() || pokeLocation.getPokemon().isEmpty()) continue;
 
+            System.out.println(pokeLocation);
             pokeLocations.add(pokeLocation);
             this.locationByNameMap.put(pokeLocation.getName(), pokeLocation);
         }
