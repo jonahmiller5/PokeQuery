@@ -24,7 +24,6 @@ public class LocationInfoRetriever {
 
     private final Map<String, List<String>> regionMap = new HashMap<>();
     private final Map<String, PokeAPILocation> locationByNameMap = new HashMap<>();
-    @Getter
     private final List<PokeAPILocation> locationList;
 
     /**
