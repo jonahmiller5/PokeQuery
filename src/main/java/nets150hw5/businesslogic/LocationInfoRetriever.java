@@ -8,6 +8,7 @@ import nets150hw5.datamodel.PokeAPILocationArea;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -70,7 +71,7 @@ public class LocationInfoRetriever {
             this.populateLocation(pokeLocation);
             if (pokeLocation.getLocationAreas().isEmpty() || pokeLocation.getPokemon().isEmpty()) continue;
 
-            System.out.println(pokeLocation);
+//            System.out.println(pokeLocation);
             pokeLocations.add(pokeLocation);
             this.locationByNameMap.put(pokeLocation.getName(), pokeLocation);
         }
@@ -107,6 +108,10 @@ public class LocationInfoRetriever {
      */
     public PokeAPILocation getLocationByName(final String name) {
         return this.locationByNameMap.get(checkNotNull(name));
+    }
+    
+    public List<String> getAllLocationNames() {
+        return this.locationList.stream().map(PokeAPILocation::getName).collect(Collectors.toList());
     }
 
     /**
