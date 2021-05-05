@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -173,6 +174,10 @@ public class TypeMatchupGraphs {
 //            }
 //        }
         
+    }
+    
+    public Set<String> getTypesList(){
+        return typeURLMap.keySet();
     }
     
     public HashSet<String> getZeroTimes(String type) {

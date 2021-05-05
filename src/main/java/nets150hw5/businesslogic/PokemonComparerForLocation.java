@@ -24,11 +24,13 @@ public class PokemonComparerForLocation {
         this.location = checkNotNull(location);
 
         this.network = createPokemonNetworkForLocation();
+        
     }
 
     private Map<PokeAPIPokemon, List<ImmutablePair<PokeAPIPokemon, Double>>> createPokemonNetworkForLocation() {
         Map<PokeAPIPokemon, List<ImmutablePair<PokeAPIPokemon, Double>>> result = new HashMap<>();
         final List<PokeAPIPokemon> allPokemonFromLocation = pokemonInfoRetriever.getPokemonForLocation(location);
+//        System.out.println(allPokemonFromLocation);
         for (PokeAPIPokemon keyPokemon : allPokemonFromLocation) {
             final List<ImmutablePair<PokeAPIPokemon, Double>> valueList = new ArrayList<>(allPokemonFromLocation.size()-1);
             for (PokeAPIPokemon valPokemon : allPokemonFromLocation) {
@@ -56,6 +58,7 @@ public class PokemonComparerForLocation {
             }
             result.put(keyPokemon, valueList);
         }
+//        System.out.println(result);
         return Collections.unmodifiableMap(result);
     }
 
@@ -69,7 +72,7 @@ public class PokemonComparerForLocation {
                 .stream()
                 .findAny()
                 .get();
-
+        
         final Set<PokeAPIPokemon> visited = new HashSet<>();
         final List<PokeAPIPokemon> queue = new LinkedList<>();
         queue.add(start);

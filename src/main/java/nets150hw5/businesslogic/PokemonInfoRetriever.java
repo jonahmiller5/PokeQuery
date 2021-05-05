@@ -40,12 +40,6 @@ public class PokemonInfoRetriever {
             final JsonObject jObj = jsonParser.parse(apiResponse)
                     .getAsJsonObject();
 
-            if (jObj == null) {
-                System.err.println("JSON OBJECT IS NULL");
-                System.err.println("API:");
-                throw new RuntimeException(apiResponse);
-            }
-
             // retrieve base experience
             final int base_experience = jObj
                     .get("base_experience")
