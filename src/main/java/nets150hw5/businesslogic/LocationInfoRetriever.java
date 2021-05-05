@@ -68,7 +68,8 @@ public class LocationInfoRetriever {
             final PokeAPILocation pokeLocation = new PokeAPILocation(name, url);
 
             this.populateLocation(pokeLocation);
-            if (pokeLocation.getLocationAreas().isEmpty() || pokeLocation.getPokemon().isEmpty()) continue;
+            if (pokeLocation.getLocationAreas().isEmpty() || pokeLocation.getPokemon().isEmpty() || pokeLocation.getPokemon().size() == 1)
+                continue;
 
 //            System.out.println(pokeLocation);
             pokeLocations.add(pokeLocation);
@@ -109,8 +110,8 @@ public class LocationInfoRetriever {
         return this.locationByNameMap.get(checkNotNull(name));
     }
     
-    public List<String> getAllLocationNames() {
-        return this.locationList.stream().map(PokeAPILocation::getName).collect(Collectors.toList());
+    public Set<String> getAllLocationNames() {
+        return this.locationList.stream().map(PokeAPILocation::getName).collect(Collectors.toSet());
     }
 
     /**

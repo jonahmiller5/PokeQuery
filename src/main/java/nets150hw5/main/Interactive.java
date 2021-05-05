@@ -48,16 +48,18 @@ public class Interactive {
             return;
         }
 
-        System.out.println("Loading... This may take a few minutes");
+        System.out.println("Loading... This may take a few minutes depending on your internet speed.");
         LocationInfoRetriever lInfoRetriever = new LocationInfoRetriever(region);
         while (!command.equals("quit")) {
-            for (String loc : lInfoRetriever.getAllLocationNames()) {
+            Set<String> locationNames = lInfoRetriever.getAllLocationNames();
+            for (String loc : locationNames) {
                 System.out.println(loc);
             }
             System.out.println("Type a location from the list above");
             System.out.println();
 
             String locationName = sc.nextLine();
+            if (!locationNames.contains(locationName)) continue;
             PokeAPILocation location = lInfoRetriever.getLocationByName(locationName);
             PokemonComparerForLocation comparer = new PokemonComparerForLocation(types, pInfoRetriever, location);
             for (PokeAPIPokemon pokemon : comparer.rankPokemon()) {
