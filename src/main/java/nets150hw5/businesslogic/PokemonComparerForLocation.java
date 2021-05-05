@@ -1,6 +1,6 @@
 package nets150hw5.businesslogic;
 
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import nets150hw5.datamodel.PokeAPILocation;
 import nets150hw5.datamodel.PokeAPIPokemon;
 
@@ -14,7 +14,7 @@ public class PokemonComparerForLocation {
     private final PokemonInfoRetriever pokemonInfoRetriever; // used to get info about pokemon
     private final PokeAPILocation location;
 
-    private final Map<PokeAPIPokemon, List<Pair<PokeAPIPokemon, Double>>> network;
+    private final Map<PokeAPIPokemon, List<ImmutablePair<PokeAPIPokemon, Double>>> network;
 
     public PokemonComparerForLocation(final TypeMatchupGraphs typeGraphs,
                                       final PokemonInfoRetriever pokemonInfoRetriever,
@@ -26,11 +26,11 @@ public class PokemonComparerForLocation {
         this.network = createPokemonNetworkForLocation();
     }
 
-    private Map<PokeAPIPokemon, List<Pair<PokeAPIPokemon, Double>>> createPokemonNetworkForLocation() {
-        Map<PokeAPIPokemon, List<Pair<PokeAPIPokemon, Double>>> result = new HashMap<>();
+    private Map<PokeAPIPokemon, List<ImmutablePair<PokeAPIPokemon, Double>>> createPokemonNetworkForLocation() {
+        Map<PokeAPIPokemon, List<ImmutablePair<PokeAPIPokemon, Double>>> result = new HashMap<>();
         final List<PokeAPIPokemon> allPokemonFromLocation = pokemonInfoRetriever.getPokemonForLocation(location);
         for (PokeAPIPokemon keyPokemon : allPokemonFromLocation) {
-            final List<Pair<PokeAPIPokemon, Double>> valueList = new ArrayList<>(allPokemonFromLocation.size()-1);
+            final List<ImmutablePair<PokeAPIPokemon, Double>> valueList = new ArrayList<>(allPokemonFromLocation.size()-1);
             for (PokeAPIPokemon valPokemon : allPokemonFromLocation) {
                 if (keyPokemon.equals(valPokemon)) continue;
 
@@ -51,7 +51,7 @@ public class PokemonComparerForLocation {
                 }
                 totalEffect /= (keyTypes.size() * valTypes.size());
 
-                final Pair<PokeAPIPokemon, Double> valPair = new Pair<>(valPokemon, totalEffect);
+                final ImmutablePair<PokeAPIPokemon, Double> valPair = new ImmutablePair<>(valPokemon, totalEffect);
                 valueList.add(valPair);
             }
             result.put(keyPokemon, valueList);
@@ -78,10 +78,10 @@ public class PokemonComparerForLocation {
 
             if (visited.contains(currPokemon)) continue;
 
-            final List<Pair<PokeAPIPokemon, Double>> others = this.network.get(currPokemon);
+            final List<ImmutablePair<PokeAPIPokemon, Double>> others = this.network.get(currPokemon);
 
             double currOutSum = 0.0;
-            for (Pair<PokeAPIPokemon, Double> other : others) {
+            for (ImmutablePair<PokeAPIPokemon, Double> other : others) {
                 final PokeAPIPokemon otherPokemon = other.getKey();
                 final double currOutWeight = other.getValue();
 
