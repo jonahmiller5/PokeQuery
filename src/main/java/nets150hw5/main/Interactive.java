@@ -22,7 +22,6 @@ public class Interactive {
         regions.add("unova");
         regions.add("sinnoh");
         regions.add("kalos");
-        regions.add("alola");
     }
 
     public void initInteractive() {
