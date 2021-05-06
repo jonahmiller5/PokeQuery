@@ -36,6 +36,7 @@ public class Interactive {
         while (!(mode.equals("type") || mode.equals("rank"))) {
             mode = sc.nextLine().trim().toLowerCase();
             if (mode.equals("quit")) return;
+            if (!(mode.equals("type") || mode.equals("rank"))) System.out.println("That is not a valid input, please try again.");
         }
         if (mode.equals("type")) {
             while (!command.equals("quit")) {
@@ -47,6 +48,7 @@ public class Interactive {
                 while (!types.getTypesList().contains(currentType)) {
                     currentType = sc.nextLine().trim().toLowerCase();
                     if (currentType.equals("quit")) return;
+                    if (!types.getTypesList().contains(currentType)) System.out.println("That is not a valid input, please try again.");
                 }
                 System.out.println(currentType + " type is 0x effective against:");
                 for (String z : types.getZeroTimes(currentType)) {
@@ -83,10 +85,11 @@ public class Interactive {
             sb.deleteCharAt(sb.length()-1);
             System.out.println(sb);
 
-            String region = sc.nextLine().trim().toLowerCase();
+            String region = "";
             while (!regions.contains(region)) {
                 region = sc.nextLine().trim().toLowerCase();
                 if (region.equals("quit")) return;
+                if(!regions.contains(region)) System.out.println("That is not a valid input, please try again.");
             }
 
             System.out.println("Loading... This may take a few minutes depending on your internet speed.");
@@ -103,6 +106,7 @@ public class Interactive {
                 while (!locationNames.contains(locationName)) {
                     if (locationName.equals("quit")) return;
                     locationName = sc.nextLine().trim().toLowerCase().replaceAll(" ", "-");
+                    if (!locationNames.contains(locationName)) System.out.println("That is not a valid input, please try again.");
                 }
                 PokeAPILocation location = lInfoRetriever.getLocationByName(locationName);
                 PokemonComparerForLocation comparer = new PokemonComparerForLocation(types, pInfoRetriever, location);
